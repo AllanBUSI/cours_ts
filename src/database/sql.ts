@@ -1,0 +1,1 @@
+export const selectEmail = 'SELECT email FROM `user` WHERE `email` = ?'
