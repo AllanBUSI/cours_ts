@@ -34,6 +34,7 @@ export const RegisterMiddleware = (req: Request, res: Response, next: NextFuncti
         })
     
     return next();
+
 }
 
 interface ILogin {

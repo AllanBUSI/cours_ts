@@ -1,8 +1,10 @@
+
 import {Request, Response} from 'express';
 import { connection } from 'src/database';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 require("dotenv").config();
+
 
 interface IRegister {
     email: string;

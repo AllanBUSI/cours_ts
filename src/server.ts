@@ -1,13 +1,18 @@
+// .env 
 require("dotenv").config();
 // récupérer les chemins alias une fois le projet déployé
+// verif 
 if (process.env.NODE_ENV === "production") {
   require("module-alias/register");
 }
+// express
 import express, { Application } from "express";
+// helmet 
 import helmet from "helmet";
+// http
 import http from "http";
+// cross origin
 import cors from "cors";
-import morgan from "morgan";
 
 // cache
 declare global {
@@ -15,17 +20,20 @@ declare global {
 }
 import NodeCache from "node-cache";
 import router from "./routes";
+// pour envoyer des email
 import nodemailer from "nodemailer";
 
 import smtpTransport from "nodemailer-smtp-transport";
-
+import {connection} from './database/'
 global.myCache = new NodeCache();
 
 const app: Application = express();
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 
+// middleware motiteur
 app.use(require("express-status-monitor")());
+// express cassic
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(helmet());
@@ -46,6 +54,15 @@ app.use(router);
   try {
     httpServer.listen(PORT);
     console.log(`Serveur lancé sur le port ${PORT}`);
+
+    
+    connection.connect(err => {
+      if (err) {
+          console.error(`error connecting: ${err.stack}`);
+          return;
+      }
+      console.log(`connected as id ${connection.threadId}`);
+    });
 
     //CONNEXION NODEMAILER
     const isConnected = async function connect() {
