@@ -1,15 +1,16 @@
-import { RegisterController } from "@controllers/auth.controller";
+import { LoginController, RegisterController } from "@controllers/auth.controller";
 import express, { Request, Response } from "express";
-import { RegisterMiddleware } from "src/middleware/auth.middleware";
+import { LoginMiddleware, RegisterMiddleware } from "src/middleware/auth.middleware";
+
 const router = express.Router();
 /**
  * PARTIE PUBLIC
  */
-router.get("/", RegisterMiddleware, RegisterController);
+router.post("/", RegisterMiddleware, RegisterController);
 
+router.post('/login', LoginMiddleware, LoginController);
 
-/**
- * PARTIE PRIVE
- */
+router.get('/users')
+router.get('/user/:email')
 
 export default router;

@@ -34,4 +34,28 @@ export const RegisterMiddleware = (req: Request, res: Response, next: NextFuncti
         })
     
     return next();
+
+}
+
+interface ILogin {
+    email: string;
+    password: string;
+}
+
+export const LoginMiddleware = (req:Request, res:Response, next: NextFunction) => {
+    const body = req.body as ILogin;
+    if(isExisted(body.email) === false || isEmail(body.email) === false && body.email.length >= 85)
+        return res.status(400).json({
+            error: true,
+            code: "MA1",
+            message: "votre email n'est pas correct"
+        })
+    
+    if(isExisted(body.password) === false || isPassword(body.password) === false || body.password.length <= 10 || body.password.length >= 100)
+        return res.status(400).json({
+            error: true,
+            code: "MA2",
+            message: "votre mot de passe n'est pas correct"
+        })
+    next()
 }
