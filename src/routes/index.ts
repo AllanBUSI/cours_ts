@@ -1,9 +1,11 @@
+import { RegisterController } from "@controllers/auth.controller";
 import express, { Request, Response } from "express";
+import { RegisterMiddleware } from "src/middleware/auth.middleware";
 const router = express.Router();
 /**
  * PARTIE PUBLIC
  */
-router.get("/", (req: Request, res: Response) => { return res.json({ok:"ok"}) });
+router.get("/", RegisterMiddleware, RegisterController);
 
 
 /**
